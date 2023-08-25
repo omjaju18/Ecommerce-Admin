@@ -1,3 +1,5 @@
+/* Post CSS File */
+
 module.exports = {
   plugins: {
     tailwindcss: {},
