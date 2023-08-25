@@ -11,7 +11,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-// Define the "Store" model for the database.
+// Define the "Store" model for the database
 
 model Store {
   // Unique identifier for each store, using a UUID as the default value.
