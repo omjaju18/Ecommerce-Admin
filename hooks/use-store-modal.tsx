@@ -6,7 +6,7 @@ interface useStoreModalStore {
     onClose: () => void; //close the modal
 }
 
-//set is a function provided by Zustand to update the store's state.
+//set is a function provided by Zustand(used for validation) to update the store's state.
 
 export const useStoreModal = create<useStoreModalStore>((set) => ({
     isOpen: false, //initial state
