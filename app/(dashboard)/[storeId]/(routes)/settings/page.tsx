@@ -38,7 +38,7 @@ const SettingsPage = async ({
             <div className="flex-1 space-y-4 p-8 pt-6">
 
                 {/* Render the SettingsForm component with initial data from the store */}
-                <SettingsForm />
+                <SettingsForm initialData={store} />
             </div>
         </div>
     );
