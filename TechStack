@@ -7,3 +7,5 @@ zod - validation
 prisma - database 
 
 planent scale- mysql database
+
+cloudinary - image uploading
