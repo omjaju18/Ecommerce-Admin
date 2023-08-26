@@ -21,8 +21,9 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
-//import { AlertModal } from "@/components/modals/alert-modal"; 
-//import { ApiAlert } from "@/components/ui/api-alert"; 
+import { AlertModal } from "@/components/modals/alert-modal";
+import { ApiAlert } from "@/components/ui/api-alert";
+
 //import { useOrigin } from "@/hooks/use-origin"; 
 
 
@@ -91,12 +92,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     // Render the SettingsForm component
     return (
         <>
-            {/*  <AlertModal
+            <AlertModal
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 onConfirm={onDelete}
                 loading={loading}
-            /> */}
+            />
             <div className="flex items-center justify-between">
                 {/* Render the heading and a delete button */}
                 <Heading title="Store settings" description="Manage store preferences" />
@@ -134,11 +135,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                 </form>
             </Form>
             <Separator /> {/* Render another separator */}
-            {/*  <ApiAlert
+            <ApiAlert
                 title="NEXT_PUBLIC_API_URL"
                 variant="public"
                 description={`${origin}/api/${params.storeId}`}
-            /> */}
+            />
         </>
     );
 };
