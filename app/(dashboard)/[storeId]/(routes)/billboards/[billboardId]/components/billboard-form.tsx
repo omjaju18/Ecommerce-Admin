@@ -72,17 +72,21 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         try {
             setLoading(true);
             if (initialData) {
+
                 // Update existing billboard data via an API endpoint
                 await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
             } else {
+
                 // Create a new billboard via an API endpoint
                 await axios.post(`/api/${params.storeId}/billboards`, data);
             }
+
             // Refresh and navigate to the billboard list page on success
             router.refresh();
             router.push(`/${params.storeId}/billboards`);
             toast.success(toastMessage);
         } catch (error: any) {
+
             // Display an error toast message on failure
             toast.error('Something went wrong.');
         } finally {
@@ -93,13 +97,16 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     // Define the function for handling billboard deletion
     const onDelete = async () => {
         try {
+
             setLoading(true);
             // Delete the billboard via an API endpoint
             await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+
             // Refresh and navigate to the billboard list page on success
             router.refresh();
             router.push(`/${params.storeId}/billboards`);
             toast.success('Billboard deleted.');
+            
         } catch (error: any) {
             // Display an error toast message if deletion fails
             toast.error('Make sure you removed all categories using this billboard first.');
