@@ -19,7 +19,9 @@ model Store {
   
   // The name of the store.
   name      String  
-  
+
+   billboards      Billboard[] @relation("StoreToBillboard")
+
   // The user associated with the store.
   userId    String  
   
@@ -28,4 +30,17 @@ model Store {
   
   // Timestamp for when the store was last updated, automatically updated.
   updatedAt DateTime   @updatedAt
+}
+
+
+model Billboard {
+  id          String @id @default(uuid())
+  storeId     String
+  store       Store @relation("StoreToBillboard", fields: [storeId], references: [id])
+  label       String
+  imageUrl    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([storeId])
 }
