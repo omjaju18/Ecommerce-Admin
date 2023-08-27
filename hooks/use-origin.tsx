@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+"use client"
 
+import { useEffect, useState } from "react";
 // Define a custom React hook named 'useOrigin'
 export const useOrigin = () => {
     // State to track whether the component is mounted
