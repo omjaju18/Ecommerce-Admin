@@ -1,3 +1,5 @@
+'use client';
+
 // Import necessary modules and components
 import axios from "axios";
 import { useState } from "react";
@@ -26,6 +28,7 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({
     data,
 }) => {
+
     // Initialize router and params for navigation and state for modal and loading
     const router = useRouter();
     const params = useParams();
@@ -36,16 +39,22 @@ export const CellAction: React.FC<CellActionProps> = ({
     const onConfirm = async () => {
         try {
             setLoading(true);
+
             // Send a DELETE request to delete the billboard
             await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+            
             // Display a success message
             toast.success('Billboard deleted.');
+
             // Refresh the page
             router.refresh();
+            
         } catch (error) {
+
             // Display an error message if deletion fails
             toast.error('Make sure you removed all categories using this billboard first.');
         } finally {
+
             // Close the modal and reset loading state
             setOpen(false);
             setLoading(false);
@@ -62,6 +71,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 
     return (
         <>
+
             {/* Render an alert modal for confirmation */}
             <AlertModal
                 isOpen={open}
@@ -69,9 +79,11 @@ export const CellAction: React.FC<CellActionProps> = ({
                 onConfirm={onConfirm}
                 loading={loading}
             />
+
             {/* Render a dropdown menu with actions */}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
+
                     {/* Render a button to open the menu */}
                     <Button variant="ghost" className="h-8 w-8 p-0">
                         <span className="sr-only">Open menu</span>
@@ -79,20 +91,24 @@ export const CellAction: React.FC<CellActionProps> = ({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+
                     {/* Render a label for the menu */}
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
                     {/* Render a menu item to copy the ID */}
                     <DropdownMenuItem
                         onClick={() => onCopy(data.id)}
                     >
                         <Copy className="mr-2 h-4 w-4" /> Copy Id
                     </DropdownMenuItem>
+
                     {/* Render a menu item to update the billboard */}
                     <DropdownMenuItem
                         onClick={() => router.push(`/${params.storeId}/billboards/${data.id}`)}
                     >
                         <Edit className="mr-2 h-4 w-4" /> Update
                     </DropdownMenuItem>
+
                     {/* Render a menu item to delete the billboard */}
                     <DropdownMenuItem
                         onClick={() => setOpen(true)}

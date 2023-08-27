@@ -1,3 +1,5 @@
+'use client'
+
 // Import necessary modules and components
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
