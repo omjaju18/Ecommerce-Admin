@@ -38,9 +38,22 @@ model Billboard {
   storeId     String
   store       Store @relation("StoreToBillboard", fields: [storeId], references: [id])
   label       String
+  images      Image[] 
   imageUrl    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([storeId])
+}
+
+model Image {
+  id        String  @id @default(uuid())
+  billboardId String
+  billboard   Billboard @relation(fields: [billboardId], references: [id], onDelete: Cascade)
+  url       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([billboardId])
 }

@@ -106,7 +106,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             router.refresh();
             router.push(`/${params.storeId}/billboards`);
             toast.success('Billboard deleted.');
-            
+
         } catch (error: any) {
             // Display an error toast message if deletion fails
             toast.error('Make sure you removed all categories using this billboard first.');
@@ -164,7 +164,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                                         disabled={loading}
                                         onChange={(url) => field.onChange(url)}
                                         onRemove={() => field.onChange('')}
-                                    /> 
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
