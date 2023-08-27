@@ -1,6 +1,6 @@
 import prismadb from "@/lib/prismadb";
 
-import { BillboardForm } from "./components/billboard-form"; 
+import { BillboardForm } from "./components/billboard-form";
 
 // Define an asynchronous React component called BillboardPage.
 const BillboardPage = async ({
