@@ -27,7 +27,7 @@ model Store {
   
   // Timestamp for when the store was created, with the current timestamp as the default.
   createdAt DateTime   @default(now())
-  
+   categories      Category[] @relation("StoreToCategory")
   // Timestamp for when the store was last updated, automatically updated.
   updatedAt DateTime   @updatedAt
 }
@@ -38,7 +38,7 @@ model Billboard {
   storeId     String
   store       Store @relation("StoreToBillboard", fields: [storeId], references: [id])
   label       String
-  images      Image[] 
+  categories  Category[]
   imageUrl    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -46,14 +46,17 @@ model Billboard {
   @@index([storeId])
 }
 
-model Image {
-  id        String  @id @default(uuid())
-  billboardId String
-  billboard   Billboard @relation(fields: [billboardId], references: [id], onDelete: Cascade)
-  url       String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Category {
+  id          String      @id @default(uuid())
+  storeId     String      // Foreign Key to Store
+  store       Store       @relation("StoreToCategory", fields: [storeId], references: [id])
+  billboardId String      // Foreign Key to Billboard
+  billboard   Billboard   @relation(fields: [billboardId], references: [id])
+  name        String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
+  @@index([storeId])
   @@index([billboardId])
 }
