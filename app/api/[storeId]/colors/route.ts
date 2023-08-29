@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"; // Import NextResponse from Next.js
-import { auth } from "@clerk/nextjs"; // Import authentication functionality
 
 import prismadb from "@/lib/prismadb"; // Import the Prismadb client
+import { auth } from "@clerk/nextjs"; // Import authentication functionality
 
 // Handler for POST request
 export async function POST(
@@ -13,7 +13,7 @@ export async function POST(
 
     const body = await req.json(); // Parse the request body
 
-    const { name, billboardId } = body; // Destructure name and billboardId from the request body
+    const { name, value } = body; // Destructure name and value from the request body
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 }); // Return a forbidden response if the user is not authenticated
@@ -23,8 +23,8 @@ export async function POST(
       return new NextResponse("Name is required", { status: 400 }); // Return a bad request response if name is missing
     }
 
-    if (!billboardId) {
-      return new NextResponse("Billboard ID is required", { status: 400 }); // Return a bad request response if billboardId is missing
+    if (!value) {
+      return new NextResponse("Value is required", { status: 400 }); // Return a bad request response if value is missing
     }
 
     if (!params.storeId) {
@@ -42,17 +42,17 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 405 }); // Return a method not allowed response if the user is not authorized
     }
 
-    const category = await prismadb.category.create({
+    const color = await prismadb.color.create({
       data: {
         name,
-        billboardId,
+        value,
         storeId: params.storeId,
       },
     });
 
-    return NextResponse.json(category); // Return the created category as JSON
+    return NextResponse.json(color); // Return the created color as JSON
   } catch (error) {
-    console.log("[CATEGORIES_POST]", error);
+    console.log("[COLORS_POST]", error);
     return new NextResponse("Internal error", { status: 500 }); // Return an internal server error response on error
   }
 }
@@ -67,15 +67,15 @@ export async function GET(
       return new NextResponse("Store id is required", { status: 400 }); // Return a bad request response if storeId is missing
     }
 
-    const categories = await prismadb.category.findMany({
+    const colors = await prismadb.color.findMany({
       where: {
         storeId: params.storeId,
       },
     });
 
-    return NextResponse.json(categories); // Return the retrieved categories as JSON
+    return NextResponse.json(colors); // Return the retrieved colors as JSON
   } catch (error) {
-    console.log("[CATEGORIES_GET]", error);
+    console.log("[COLORS_GET]", error);
     return new NextResponse("Internal error", { status: 500 }); // Return an internal server error response on error
   }
 }

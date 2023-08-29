@@ -1,30 +1,27 @@
 import { NextResponse } from "next/server"; // Import NextResponse from Next.js
-import { auth } from "@clerk/nextjs"; // Import authentication functionality
 
 import prismadb from "@/lib/prismadb"; // Import the Prismadb client
+import { auth } from "@clerk/nextjs"; // Import authentication functionality
 
 // Handler for GET request
 export async function GET(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { sizeId: string } }
 ) {
   try {
-    if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 }); // Return a bad request response if categoryId is missing
+    if (!params.sizeId) {
+      return new NextResponse("Size id is required", { status: 400 }); // Return a bad request response if sizeId is missing
     }
 
-    const category = await prismadb.category.findUnique({
+    const size = await prismadb.size.findUnique({
       where: {
-        id: params.categoryId,
-      },
-      include: {
-        billboard: true,
+        id: params.sizeId,
       },
     });
 
-    return NextResponse.json(category); // Return the retrieved category as JSON
+    return NextResponse.json(size); // Return the retrieved size as JSON
   } catch (error) {
-    console.log("[CATEGORY_GET]", error);
+    console.log("[SIZE_GET]", error);
     return new NextResponse("Internal error", { status: 500 }); // Return an internal server error response on error
   }
 }
@@ -32,7 +29,7 @@ export async function GET(
 // Handler for DELETE request
 export async function DELETE(
   req: Request,
-  { params }: { params: { categoryId: string; storeId: string } }
+  { params }: { params: { sizeId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth(); // Get the authenticated user's ID
@@ -41,8 +38,8 @@ export async function DELETE(
       return new NextResponse("Unauthenticated", { status: 403 }); // Return a forbidden response if the user is not authenticated
     }
 
-    if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 }); // Return a bad request response if categoryId is missing
+    if (!params.sizeId) {
+      return new NextResponse("Size id is required", { status: 400 }); // Return a bad request response if sizeId is missing
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -56,15 +53,15 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 405 }); // Return a method not allowed response if the user is not authorized
     }
 
-    const category = await prismadb.category.delete({
+    const size = await prismadb.size.delete({
       where: {
-        id: params.categoryId,
+        id: params.sizeId,
       },
     });
 
-    return NextResponse.json(category); // Return the deleted category as JSON
+    return NextResponse.json(size); // Return the deleted size as JSON
   } catch (error) {
-    console.log("[CATEGORY_DELETE]", error);
+    console.log("[SIZE_DELETE]", error);
     return new NextResponse("Internal error", { status: 500 }); // Return an internal server error response on error
   }
 }
@@ -72,29 +69,29 @@ export async function DELETE(
 // Handler for PATCH request
 export async function PATCH(
   req: Request,
-  { params }: { params: { categoryId: string; storeId: string } }
+  { params }: { params: { sizeId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth(); // Get the authenticated user's ID
 
     const body = await req.json(); // Parse the request body
 
-    const { name, billboardId } = body; // Destructure name and billboardId from the request body
+    const { name, value } = body; // Destructure name and value from the request body
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 }); // Return a forbidden response if the user is not authenticated
-    }
-
-    if (!billboardId) {
-      return new NextResponse("Billboard ID is required", { status: 400 }); // Return a bad request response if billboardId is missing
     }
 
     if (!name) {
       return new NextResponse("Name is required", { status: 400 }); // Return a bad request response if name is missing
     }
 
-    if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 }); // Return a bad request response if categoryId is missing
+    if (!value) {
+      return new NextResponse("Value is required", { status: 400 }); // Return a bad request response if value is missing
+    }
+
+    if (!params.sizeId) {
+      return new NextResponse("Size id is required", { status: 400 }); // Return a bad request response if sizeId is missing
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -108,19 +105,19 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 405 }); // Return a method not allowed response if the user is not authorized
     }
 
-    const category = await prismadb.category.update({
+    const size = await prismadb.size.update({
       where: {
-        id: params.categoryId,
+        id: params.sizeId,
       },
       data: {
         name,
-        billboardId,
+        value,
       },
     });
 
-    return NextResponse.json(category); // Return the updated category as JSON
+    return NextResponse.json(size); // Return the updated size as JSON
   } catch (error) {
-    console.log("[CATEGORY_PATCH]", error);
+    console.log("[SIZE_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 }); // Return an internal server error response on error
   }
 }
