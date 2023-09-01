@@ -122,3 +122,5 @@ model Image {
 
   @@index([productId])
 }
+
+
