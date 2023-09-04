@@ -7,6 +7,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import { ModalProvider } from '@/providers/modal-provider'
 import { ToastProvider } from '@/providers/toast-provider'
+import { ThemeProvider } from '@/providers/theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,16 +30,16 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className} >
-          <ToastProvider />
-          {/* Its primary purpose is to ensure that the content within it is only rendered after the component has fully mounted. */}
-          <ModalProvider />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem >
+            <ToastProvider />
+            {/* Its primary purpose is to ensure that the content within it is only rendered after the component has fully mounted. */}
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
   )
 }
 
-{/* <div className="flex min-h-screen items-center justify-center">
-  {children}
-</div> */}
+
